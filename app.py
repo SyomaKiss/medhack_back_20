@@ -21,7 +21,7 @@ def upload_file():
           key = create_record_in_fb(fb)     # create empty record
           temp = tempfile.NamedTemporaryFile(delete=False)
           file.save(temp.name)
-          url1 = upload_img_to_firebase(temp.name, name_salt=key)   # upload to FS
+          url1 = upload_img_to_firebase(temp.name, name = file.filename, name_salt=key)   # upload to FS
 
           # input_img = plt.imread(temp.name)  # read img to feed into the model later
           os.remove(temp.name)
@@ -32,7 +32,7 @@ def upload_file():
           # pred = model(input_img)
           # plt.imwrite('visualisation_img.png', img)
 
-          # url2 = upload_img_to_firebase('visualisation_img.png', name_salt=key)
+          # url2 = upload_img_to_firebase('visualisation_img.png', name = str('visual_'+file.filename), name_salt=key)
           # upd_visualisation_url(url2, fb, key)
           # upd_prediction(pred, fb, key)
 

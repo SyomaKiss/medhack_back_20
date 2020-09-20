@@ -38,17 +38,14 @@ def upd_prediction(pred, fb, key):
     fb.put(f'/History/{key}',"Predicitons", pred)
     
     
-def upload_img_to_firebase(imagePath, name_salt='salt', remote_save_folder = 'images'):
+def upload_img_to_firebase(imagePath, name='default_name', name_salt='salt', remote_save_folder = 'images'):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "digiathero---med-firebase-adminsdk-e8553-48e828bbd0.json"
     os.environ["GCLOUD_PROJECT"] = "digiathero---med"
     client = storage.Client()
 
     bucket = client.get_bucket('digiathero---med.appspot.com')
 
-    imageBlob = bucket.blob("/")
-    
-    dirpath, tail = os.path.split(imagePath)
-    new_name = str(name_salt + '_' + tail)
+    new_name = str(name_salt + '_' + name)
     remote_image_path = os.path.join(remote_save_folder, new_name)
     
     imageBlob = bucket.blob(remote_image_path)
