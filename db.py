@@ -5,7 +5,8 @@ import os
 
 
 def create_record_in_fb(fb):
-    data = {'Date': datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
+    data = {'Date': datetime.now().timestamp() * 1000,
+            'Predicted': False,
             'Source_url': 'some-url',
             'Visualisation_url': 'NEWURL_@22',
             'Predicitons': {'Atelectasis': 0,
