@@ -5,14 +5,16 @@ import json
 import os
 import tempfile
 from db import *
+from flask_cors import CORS
 app = Flask(__name__)
-
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 fb = firebase.FirebaseApplication('https://digiathero---med.firebaseio.com', None)
 
 @app.route('/uploader', methods = ['POST'])
 def upload_file():
    if request.method == 'POST':
+      print(request)
       uploaded_files = request.files.getlist("file[]")
       print(uploaded_files)
       for file in uploaded_files:
