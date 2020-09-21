@@ -82,7 +82,7 @@ def upload_file():
           # get model prediction and visualisation
           vis_filename = temp.name+"_visualization.png"
 
-          pathology_probability, diagnosed_diseases = dummy.process(temp.name,
+          pathology_probability, diagnosed_diseases = dummy.process_semyon(temp.name,
                                                                     vis_filename)
 
           url2 = upload_img_to_firebase(vis_filename, name=str(
