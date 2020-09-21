@@ -14,7 +14,8 @@ fb = firebase.FirebaseApplication('https://digiathero---med.firebaseio.com', Non
 
 @app.route('/get_docx', methods = ['GET', 'POST'])
 def get_docx():
-    path = report_generator.generate_docx(patient_name=request.get_json()["patient_name"],
+    path = report_generator.generate_docx(
+        patient_name=request.get_json()["patient_name"],
                   doctor_name=request.get_json()["doctor_name"],
                   date=str(datetime.now()),
                   description=request.get_json()["description"],
@@ -25,13 +26,13 @@ def get_docx():
 
 @app.route('/get_sr', methods = ['GET', 'POST'])
 def get_sr():
-    path = report_generator.generate_sr(patient_name="Шмидхубер Юрген Иванович",
-                                        doctor_name="Пупкин В.П.",
-                                        date=str(datetime.now()),
-                                        description="",
-                                        pathologies=[]
+    path = report_generator.generate_sr(patient_name=request.get_json()["patient_name"],
+                  doctor_name=request.get_json()["doctor_name"],
+                  date=str(datetime.now()),
+                  description=request.get_json()["description"],
+                  pathologies=list(request.get_json()["pathologies"].keys())
                                         )
-    return {'path': path } # send file to front
+    return {'path': upload_img_to_firebase(path, name = 'sr.dcm', name_salt=str(time.time())) } # send file to front
 
 @app.route('/uploader', methods = ['POST'])
 def upload_file():

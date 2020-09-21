@@ -26,7 +26,7 @@ def generate_sr(patient_name="Шмидхубер Юрген Иванович",
     """
     Generates DICOM SR based on request data
     """
-    MosmedReport(patient_name,doctor_name,date,description,pathologies).save(".")
+    return MosmedReport(patient_name,doctor_name,date,description,pathologies).save(".")
 
 def generate_docx(patient_name="Шмидхубер Юрген Иванович",
                   doctor_name="Пупкин В.П.",
