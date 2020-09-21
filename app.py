@@ -32,7 +32,7 @@ def get_sr():
                   description=request.get_json()["description"],
                   pathologies=list(request.get_json()["pathologies"].keys())
                                         )
-    return {'path': upload_img_to_firebase(path, name = 'sr.dcm', name_salt=str(time.time())) } # send file to front
+    return {'path': upload_img_to_firebase(path, name = 'sr.dcm', name_salt=str(time.time()).split('.')[-1]) } # send file to front
 
 @app.route('/uploader', methods = ['POST'])
 def upload_file():
