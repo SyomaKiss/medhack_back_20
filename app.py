@@ -14,11 +14,11 @@ fb = firebase.FirebaseApplication('https://digiathero---med.firebaseio.com', Non
 
 @app.route('/get_docx', methods = ['GET', 'POST'])
 def get_docx():
-    path = report_generator.generate_docx(patient_name="Шмидхубер Юрген Иванович",
-                  doctor_name="Пупкин В.П.",
+    path = report_generator.generate_docx(patient_name=request.get_json()["patient_name"],
+                  doctor_name=request.get_json()["doctor_name"],
                   date=str(datetime.now()),
-                  description="",
-                  pathologies=[]
+                  description=request.get_json()["description"],
+                  pathologies=list(request.get_json()["pathologies"].keys())
                  )
 
     return {'path': upload_img_to_firebase('demo.docx', name = 'demo.docx', name_salt=str(time.time())) } # send file to front
