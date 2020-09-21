@@ -23,7 +23,7 @@ def dcm2png(path):
     if not (("PhotometricInterpretation" in dcm) and (dcm.PhotometricInterpretation == 'MONOCHROME2')):
         img = np.invert(img)
     img -= img.min()
-    img /= img.max()
+    img = img / img.max()
     img = (img * 255)
     img = img.astype(np.uint8)
     plt.imwrite(img, path)
