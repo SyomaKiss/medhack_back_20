@@ -21,6 +21,7 @@ from albumentations.augmentations.transforms import *
 threshold = 0.5
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+
 def normalizer(img, **params):
     img = img.astype(np.float32)
     if img.max() > 255:
@@ -191,7 +192,8 @@ def load_model(ckpt_path):
             self.model = model
 
     model = Fixer(model)
-    model.load_state_dict(torch.load(ckpt_path)['state_dict'])
+    model.load_state_dict(torch.load(
+        ckpt_path, map_location=torch.device('cpu'))['state_dict'])
     model = model.model
 
     model.train()
@@ -300,7 +302,6 @@ def predict(model, path_to_image, isCuda=False):
     """
     image = prepare_image(path_to_image)
 
-
     image = image.to(device)
     model.to(device)
 
@@ -318,10 +319,12 @@ preprocess_semyon = A.Compose([A.Resize(256, 256),
     ToTensor()
 ])
 
+
 def new_densenet121(imagenet=True, path_to_weights=None):
     net = torchvision.models.densenet121()
     if imagenet:
-        state_dict = torch.load('../weights/misc/densenet121_pretrained.pth')
+        state_dict = torch.load(
+            '../weights/misc/densenet121_pretrained.pth', map_location=torch.device('cpu'))
         # '.'s are no longer allowed in module names, but pervious _DenseLayer
         # has keys 'norm.1', 'relu.1', 'conv.1', 'norm.2', 'relu.2', 'conv.2'.
         # They are also in the checkpoints in model_urls. This pattern is used
@@ -342,7 +345,8 @@ def new_densenet121(imagenet=True, path_to_weights=None):
             num_ftrs = net.classifier.in_features
             net.classifier = nn.Linear(num_ftrs, 14)
         else:
-            state_dict = torch.load(path_to_weights)
+            state_dict = torch.load(
+                path_to_weights, map_location=torch.device('cpu'))
             num_ftrs = net.classifier.in_features
             net.classifier = nn.Linear(num_ftrs, 14)
             net.load_state_dict(state_dict)
@@ -353,7 +357,7 @@ def new_inceptionV3(imagenet=True, path_to_weights=None):
     net = torchvision.models.inception_v3()
     if imagenet:
         state_dict = torch.load(
-            '../weights/misc/inception_v3_pretrained_imagenet.pth')
+            '../weights/misc/inception_v3_pretrained_imagenet.pth', map_location=torch.device('cpu'))
         # '.'s are no longer allowed in module names, but pervious _DenseLayer
         # has keys 'norm.1', 'relu.1', 'conv.1', 'norm.2', 'relu.2', 'conv.2'.
         # They are also in the checkpoints in model_urls. This pattern is used
@@ -374,7 +378,8 @@ def new_inceptionV3(imagenet=True, path_to_weights=None):
             num_ftrs = net.fc.in_features
             net.fc = nn.Linear(num_ftrs, 14)
         else:
-            state_dict = torch.load(path_to_weights)
+            state_dict = torch.load(
+                path_to_weights, map_location=torch.device('cpu'))
             num_ftrs = net.fc.in_features
             net.fc = nn.Linear(num_ftrs, 14)
             net.load_state_dict(state_dict)
@@ -464,6 +469,7 @@ def predict_visual_semyon(model, path_to_image, isCuda=False):
                           np.float32)/255)
 
     return pred, final
+
 
 """
 Code to use:
