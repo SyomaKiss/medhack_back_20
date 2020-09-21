@@ -292,7 +292,7 @@ def predict_visual(model, path_to_image, isCuda=False):
                       cv2.cvtColor(orig, cv2.COLOR_GRAY2RGB).astype(
                           np.float32)/255)
 
-    return pred, final
+    return (pred>threshold).astype(int), final
 
 
 def predict(model, path_to_image, isCuda=False):
@@ -469,7 +469,7 @@ def predict_visual_semyon(model, path_to_image, isCuda=False):
                           np.float32)/255)
     final = normalize(final)
 
-    return pred, final
+    return (pred>=threshold).astype(int), final
 
 
 """
