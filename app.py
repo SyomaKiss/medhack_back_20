@@ -4,7 +4,7 @@ from flask import Flask, request
 import tempfile
 from db import *
 from flask_cors import CORS
-
+import time
 import report_generator
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ def get_docx():
                   pathologies=[]
                  )
 
-    return {'path': 'demo.docx' } # send file to front
+    return {'path': upload_img_to_firebase('demo.docx', name = 'demo.docx', name_salt=str(time.time())) } # send file to front
 
 @app.route('/get_sr', methods = ['GET', 'POST'])
 def get_sr():
