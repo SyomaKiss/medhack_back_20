@@ -26,7 +26,7 @@ def dcm2png(path):
     img = img / img.max()
     img = (img * 255)
     img = img.astype(np.uint8)
-    plt.imwrite(img, path)
+    plt.imsave(img, path)
     return path
 
 
