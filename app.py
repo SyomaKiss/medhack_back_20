@@ -7,10 +7,28 @@ from flask_cors import CORS
 import time
 import report_generator
 
+import pydicom
+from pydicom.pixel_data_handlers.util import apply_voi_lut, apply_modality_lut
+import numpy as np
+from matplotlib import pyplot as plt
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 fb = firebase.FirebaseApplication('https://digiathero---med.firebaseio.com', None)
+
+def dcm2png(path):
+    dcm = pydicom.read_file(path)
+    # extracting image (pixels data)
+    img = apply_voi_lut(apply_modality_lut(dcm.pixel_array, dcm), dcm)
+    if not (("PhotometricInterpretation" in dcm) and (dcm.PhotometricInterpretation == 'MONOCHROME2')):
+        img = np.invert(img)
+    img -= img.min()
+    img /= img.max()
+    img = (img * 255)
+    img = img.astype(np.uint8)
+    plt.imwrite(img, path)
+    return path
+
 
 @app.route('/get_docx', methods = ['GET', 'POST'])
 def get_docx():
@@ -43,9 +61,11 @@ def upload_file():
       for file in uploaded_files:
           # file.save(file.filename)
 
-          key = create_record_in_fb(fb)     # create empty record
+          key = create_record_in_fb(fb, filename=file.filename)     # create empty record
           temp = tempfile.NamedTemporaryFile(delete=False)
           file.save(temp.name)
+          if str(file.filename).endswith('.dcm'):
+              dcm2png(temp.name)
           url1 = upload_img_to_firebase(temp.name, name = file.filename, name_salt=key)   # upload to FS
 
           # input_img = plt.imread(temp.name)  # read img to feed into the model later

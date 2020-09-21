@@ -6,9 +6,10 @@ import random
 import string
 
 
-def create_record_in_fb(fb):
+def create_record_in_fb(fb, filename='default_filename.png'):
     data = {'Date': datetime.now().timestamp() * 1000,
             'Predicted': False,
+            'Filename': filename,
             'Source_url': 'some-url',
             'Visualisation_url': 'NEWURL_@22',
             'PatientPassword': ''.join(random.choices(string.ascii_uppercase + string.digits, k=6)),

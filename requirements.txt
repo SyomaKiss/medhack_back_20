@@ -45,4 +45,6 @@ flask_cors
 pydicom
 pytz
 python-docx
+numpy
+matplotlib
 
