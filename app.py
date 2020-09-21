@@ -22,7 +22,7 @@ def get_docx():
                   pathologies= [1,2] if sum(list(request.get_json()["pathologies"].values())) > 0 else []
                  )
 
-    return {'path': upload_img_to_firebase('demo.docx', name = 'demo.docx', name_salt=str(time.time())) } # send file to front
+    return {'path': upload_img_to_firebase('demo.docx', name = 'demo.docx', name_salt=str(time.time()).split('.')[-1]) } # send file to front
 
 @app.route('/get_sr', methods = ['GET', 'POST'])
 def get_sr():
