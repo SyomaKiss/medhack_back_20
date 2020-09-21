@@ -9,7 +9,7 @@ def create_record_in_fb(fb):
             'Predicted': False,
             'Source_url': 'some-url',
             'Visualisation_url': 'NEWURL_@22',
-            'Predicitons': {'Atelectasis': 0,
+            'Predictions': {'Atelectasis': 0,
                      'Cardiomegaly': 0,
                      'Effusion': 0,
                      'Infiltration': 0,
