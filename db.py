@@ -41,7 +41,9 @@ def upd_visualisation_url(url, fb, key):
     
 def upd_prediction(pred, fb, key):
     fb.put(f'/History/{key}',"Predictions", pred)
-    
+    fb.put(f'/History/{key}', "Predicted", True)
+
+
     
 def upload_img_to_firebase(imagePath, name='default_name', name_salt='salt', remote_save_folder = 'images'):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "digiathero---med-firebase-adminsdk-e8553-48e828bbd0.json"

@@ -8,11 +8,9 @@ model_semyon = inf.load_model_semyon("model/densenet_fold2_epoch29.pth")
 
 
 def process(input_image, saved_cam=None):
-    filename = os.path.splitext(input_image)[0].split("/")[-1]
-
     if saved_cam is not None:
         result, visualization = inf.predict_visual(model, input_image)
-        cv2.imwrite("static/{0}_cam.png".format(filename), visualization)
+        cv2.imwrite(saved_cam, visualization)
     else:
         result = inf.predict(model, input_image)
 

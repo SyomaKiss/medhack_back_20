@@ -35,6 +35,7 @@ def dcm2png(path):
     return path
 
 
+
 @app.route('/get_docx', methods = ['GET', 'POST'])
 def get_docx():
     path = report_generator.generate_docx(
@@ -88,7 +89,7 @@ def upload_file():
               'visual_'+file.filename), name_salt=key)
           upd_visualisation_url(url2, fb, key)
           upd_prediction(
-              dict(zip(diagnosed_diseases, pathology_probability)), fb, key)
+              dict(zip(diagnosed_diseases, [int(i) for i in list(pathology_probability)])), fb, key)
 
           os.remove(temp.name)
           os.remove(vis_filename)
