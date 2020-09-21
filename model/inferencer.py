@@ -18,7 +18,7 @@ from albumentations.core.composition import *
 from albumentations.pytorch import ToTensor, ToTensorV2
 from albumentations.augmentations.transforms import *
 
-threshold = 0.5
+threshold = 0.15
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
@@ -467,6 +467,7 @@ def predict_visual_semyon(model, path_to_image, isCuda=False):
     final = normalize(final +
                       cv2.cvtColor(orig, cv2.COLOR_GRAY2RGB).astype(
                           np.float32)/255)
+    final = normalize(final)
 
     return pred, final
 
