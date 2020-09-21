@@ -469,7 +469,7 @@ def predict_visual_semyon(model, path_to_image, isCuda=False):
                           np.float32)/255)
     final = normalize(final)
 
-    return (pred>=threshold).astype(int), final
+    return (pred>=threshold).int(), final
 
 
 """
