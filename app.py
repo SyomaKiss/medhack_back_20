@@ -26,7 +26,8 @@ def dcm2png(path):
     img = img / img.max()
     img = (img * 255)
     img = img.astype(np.uint8)
-    plt.imsave(str(path)+'.png', img)
+    path = str(path)+'.png'
+    plt.imsave(path, img)
     return path
 
 
@@ -55,7 +56,7 @@ def get_sr():
 @app.route('/uploader', methods = ['POST'])
 def upload_file():
    if request.method == 'POST':
-      print(request)
+      # print(request)
       uploaded_files = request.files.getlist("file[]")
       print(uploaded_files)
       for file in uploaded_files:
