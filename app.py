@@ -1,15 +1,37 @@
 #app.py
 
-from flask import Flask, render_template, request
-import json
-import os
+from flask import Flask, request
 import tempfile
 from db import *
 from flask_cors import CORS
+
+import report_generator
+
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 fb = firebase.FirebaseApplication('https://digiathero---med.firebaseio.com', None)
+
+@app.route('/get_docx', methods = ['GET', 'POST'])
+def get_docx():
+    path = report_generator.generate_docx(patient_name="Шмидхубер Юрген Иванович",
+                  doctor_name="Пупкин В.П.",
+                  date=str(datetime.now()),
+                  description="",
+                  pathologies=[]
+                 )
+
+    return {'path': 'demo.docx' } # send file to front
+
+@app.route('/get_sr', methods = ['GET', 'POST'])
+def get_sr():
+    path = report_generator.generate_sr(patient_name="Шмидхубер Юрген Иванович",
+                                        doctor_name="Пупкин В.П.",
+                                        date=str(datetime.now()),
+                                        description="",
+                                        pathologies=[]
+                                        )
+    return {'path': path } # send file to front
 
 @app.route('/uploader', methods = ['POST'])
 def upload_file():

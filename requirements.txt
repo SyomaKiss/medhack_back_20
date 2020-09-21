@@ -41,3 +41,8 @@ traitlets==4.3.3
 urllib3==1.25.10
 wcwidth==0.2.5
 flask
+flask_cors
+pydicom
+pytz
+python-docx
+
