@@ -19,7 +19,7 @@ def get_docx():
                   doctor_name=request.get_json()["doctor_name"],
                   date=str(datetime.now()),
                   description=request.get_json()["description"],
-                  pathologies=list(request.get_json()["pathologies"].keys())
+                  pathologies= [1,2] if sum(list(request.get_json()["pathologies"].values())) > 0 else []
                  )
 
     return {'path': upload_img_to_firebase('demo.docx', name = 'demo.docx', name_salt=str(time.time())) } # send file to front
