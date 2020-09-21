@@ -2,6 +2,8 @@ from firebase import firebase
 from datetime import datetime
 from gcloud import storage
 import os
+import random
+import string
 
 
 def create_record_in_fb(fb):
@@ -9,6 +11,7 @@ def create_record_in_fb(fb):
             'Predicted': False,
             'Source_url': 'some-url',
             'Visualisation_url': 'NEWURL_@22',
+            'PatientPassword': ''.join(random.choices(string.ascii_uppercase + string.digits, k=6)),
             'Predictions': {'Atelectasis': 0,
                      'Cardiomegaly': 0,
                      'Effusion': 0,
