@@ -40,7 +40,7 @@ def upd_visualisation_url(url, fb, key):
     fb.put(f'/History/{key}',"Visualisation_url", url)
     
 def upd_prediction(pred, fb, key):
-    fb.put(f'/History/{key}',"Predicitons", pred)
+    fb.put(f'/History/{key}',"Predictions", pred)
     
     
 def upload_img_to_firebase(imagePath, name='default_name', name_salt='salt', remote_save_folder = 'images'):

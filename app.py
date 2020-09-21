@@ -30,7 +30,7 @@ def dcm2png(path):
     img = img / img.max()
     img = (img * 255)
     img = img.astype(np.uint8)
-    path = str(path)+'.png'
+    path = str(path) + '.png'
     plt.imsave(path, img)
     return path
 
@@ -70,7 +70,10 @@ def upload_file():
           temp = tempfile.NamedTemporaryFile(delete=False)
           file.save(temp.name)
           if str(file.filename).endswith('.dcm'):
-              dcm2png(temp.name)
+              temp.name = dcm2png(temp.name)
+              print(temp.name)
+              file.filename = str(file.filename) + '.png'
+              print(file.filename)
           url1 = upload_img_to_firebase(temp.name, name = file.filename, name_salt=key)   # upload to FS
 
           upd_source_url(url1, fb, key)     # upd URL for input image in earlier created empty record
@@ -85,7 +88,7 @@ def upload_file():
               'visual_'+file.filename), name_salt=key)
           upd_visualisation_url(url2, fb, key)
           upd_prediction(
-              str(dict(zip(diagnosed_diseases, pathology_probability))), fb, key)
+              dict(zip(diagnosed_diseases, pathology_probability)), fb, key)
 
           os.remove(temp.name)
           os.remove(vis_filename)
