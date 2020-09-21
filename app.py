@@ -7,10 +7,14 @@ from flask_cors import CORS
 import time
 import report_generator
 
+
 import pydicom
 from pydicom.pixel_data_handlers.util import apply_voi_lut, apply_modality_lut
 import numpy as np
 from matplotlib import pyplot as plt
+
+from model import dummy
+
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -69,18 +73,22 @@ def upload_file():
               dcm2png(temp.name)
           url1 = upload_img_to_firebase(temp.name, name = file.filename, name_salt=key)   # upload to FS
 
-          # input_img = plt.imread(temp.name)  # read img to feed into the model later
-          os.remove(temp.name)
           upd_source_url(url1, fb, key)     # upd URL for input image in earlier created empty record
 
           # get model prediction and visualisation
-          #
-          # pred = model(input_img)
-          # plt.imwrite('visualisation_img.png', img)
+          vis_filename = temp.name+"_visualization.png"
 
-          # url2 = upload_img_to_firebase('visualisation_img.png', name = str('visual_'+file.filename), name_salt=key)
-          # upd_visualisation_url(url2, fb, key)
-          # upd_prediction(pred, fb, key)
+          pathology_probability, diagnosed_diseases = dummy.process(temp.name,
+                                                                    vis_filename)
+
+          url2 = upload_img_to_firebase(vis_filename, name=str(
+              'visual_'+file.filename), name_salt=key)
+          upd_visualisation_url(url2, fb, key)
+          upd_prediction(
+              str(dict(zip(diagnosed_diseases, pathology_probability))), fb, key)
+
+          os.remove(temp.name)
+          os.remove(vis_filename)
 
 
 
